@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikasi Daur Ulang Sampah</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Daftar Sampah</h1>
+    <table id="tabel-sampah">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Jenis Sampah</th>
+                <th>Berat (kg)</th>
+                <th>Lokasi</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Kertas</td>
+                <td>5</td>
+                <td>Jakarta</td>
+                <td><button class="btn-hapus" data-id="1">Hapus</button></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Plastik</td>
+                <td>3</td>
+                <td>Bandung</td>
+                <td><button class="btn-hapus" data-id="2">Hapus</button></td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Kaca</td>
+                <td>2</td>
+                <td>Surabaya</td>
+                <td><button class="btn-hapus" data-id="3">Hapus</button></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        $(document).ready(function() {
+            // Event handler untuk tombol hapus
+            $(".btn-hapus").click(function() {
+                var id = $(this).data("id");
+                hapusData(id);
+            });
+        });
+
+        // Fungsi untuk menghapus data menggunakan AJAX
+        function hapusData(id) {
+            $.ajax({
+                url: "hapus_data.php?id=" + id,
+                type: "GET",
+                success: function(response) {
+                    console.log(response); // Tampilkan pesan sukses atau error di konsol
+                    // Hapus baris tabel setelah penghapusan berhasil
+                    $("#tabel-sampah tbody tr[data-id='" + id + "']").remove();
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error: " + error);
+                }
+            });
+        }
+    </script>
+</body>
+</html>
